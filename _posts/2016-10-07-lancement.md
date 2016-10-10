@@ -2,7 +2,6 @@
 layout: post
 title:  Ouverture du blog
 date:   2016-10-07 21:49:00 +0200
-categories: blog life
 tags: [ Blog life ]
 ---
 Et bien voilà, après plusieurs années sans écrire, j'éprouve à nouveau le besoin et l'envie de partager mes humbles connnaissances.
