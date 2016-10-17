@@ -41,8 +41,8 @@ La communauté Open Source a créé des outils de plus ou moins bonnes qualités
 Aucun, sauf le dépôt angular-seed. On va donc choisir cette méthode :
 
 ```bash
-git clone --depth=1 https://github.com/angular/angular-seed.git calendar-angular1
-cd calendar-angular1
+git clone --depth=1 https://github.com/angular/angular-seed.git calendar-angularjs1
+cd calendar-angularjs1
 npm install
 ```
 
