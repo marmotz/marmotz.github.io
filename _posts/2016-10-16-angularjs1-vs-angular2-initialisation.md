@@ -175,5 +175,5 @@ De l'autre, Angular 2 a un outil officiel qui initialise l'application, installe
 
 __Un point pour Angular 2 qui sort grand vainqueur de cette première étape.__
 
-**Note:** Vous pouvez retrouvez [le projet AngularJS 1](https://github.com/marmotz/calendar-angularjs1) et [le projet Angular 2](https://github.com/marmotz/calendar-angular2) dans leurs dépôts github respectifs.
+**Note:** Vous pouvez retrouver [le projet AngularJS 1](https://github.com/marmotz/calendar-angularjs1) et [le projet Angular 2](https://github.com/marmotz/calendar-angular2) dans leurs dépôts github respectifs.
 {: .notice}
