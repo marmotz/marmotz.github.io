@@ -1,10 +1,10 @@
 ---
-layout   : post
-title    : "AngularJS 1 vs Angular 2 : Initialisation"
-date     : 2016-10-16 20:23:00 +0200
-category : Tutoriel
-tags     : [ Tutoriel, AngularJS 1, Angular 2, Comparaison versions AngularJS ]
-imagefeature: 2016/2016-10-17-angular1-vs-angular2-initialization-cover.jpg
+layout       : post
+title        : "AngularJS 1 vs Angular 2 : Initialisation"
+date         : 2016-10-16 20:23:00 +0200
+category     : Tutoriel
+tags         : [ Tutoriel, AngularJS 1, Angular 2, Comparaison versions AngularJS ]
+imagefeature : 2016/2016-10-16-angularjs1-vs-angular2-initialisation-cover.jpg
 ---
 Angular 2 vient de sortir et vous vous demandez ce que vaut cette nouvelle version par rapport à la précédente, ses qualités, ses défauts, ses différences ?
 
@@ -168,3 +168,6 @@ D'un coté, Angular JS 1 n'a pas véritablement de standard pour initialiser et 
 De l'autre, Angular 2 a un outil officiel qui initialise l'application, installe les outils de développement et permet d'organiser son application et de générer les composants qu'on utilisera.
 
 __Un point pour Angular 2 qui sort grand vainqueur de cette première étape.__
+
+**Note:** Vous pouvez retrouvez [le projet AngularJS 1](https://github.com/marmotz/calendar-angularjs1) et [le projet Angular 2](https://github.com/marmotz/calendar-angular2) dans leurs dépôts github respectifs.
+{: .notice}
