@@ -32,7 +32,10 @@ Il est évident également que vous devez connaître les bases du HTML, du CSS e
 
 ## AngularJS 1
 
-_Out of the box_, [AngularJS 1](https://angularjs.org) n'offre aucun outil pour initialiser un projet facilement. Il existe néanmoins un certain nombre de projets qui permettent de démarrer rapidement. Voici les 2 principaux:
+_Out of the box_, [AngularJS 1](https://angularjs.org) n'offre aucun outil pour initialiser un projet facilement. Il existe néanmoins un certain nombre de projets qui permettent de démarrer rapidement.
+
+Voici les 2 principaux:
+
 * [yeoman](http://yeoman.io) + [generator-angular](https://github.com/yeoman/generator-angular#readme) : permet de générer le squelette d'un projet AngularJS 1 ainsi que des squelettes de controllers, directives, filtres, etc...
 * [angular-seed](https://github.com/angular/angular-seed#readme) : un dépôt [git](https://git-scm.com/) à cloner pour avoir un squelette d'application.
 
@@ -57,6 +60,7 @@ Bower, quant à lui, utilise le fichier `bower.json`. Dans ce fichier, on trouve
 Il y a donc une séparation entre les outils de développement, gérés par npm (le serveur HTTP et les outils de tests unitaires et fonctionnels), et les bibliothèques nécessaires à notre application, gérées par bower (actuellement le core d'AngularJS 1, quelques modules Angular et un boilerplate HTML5).
 
 Une fois que l'installation est terminée, on va faire un peu de nettoyage pour avoir un projet vierge et utilisable:
+
 ```bash
 rm -rf .git
 rm -rf app/components/version
@@ -66,6 +70,7 @@ rm app/index-async.html
 ```
 
 Éditez le fichier `app/app.js` pour enlever les références à ce qu'on vient de supprimer:
+
 ```javascript
 'use strict';
 
@@ -83,6 +88,7 @@ angular
 ```
 
 Éditez également le fichier `app/index.html`:
+
 ```html
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
