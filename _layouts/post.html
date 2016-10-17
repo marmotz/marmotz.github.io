@@ -5,49 +5,51 @@
 {% if site.dropcap %}<style type="text/css">@media only screen and (min-width:43.75em){.notepad-post-content div>p:first-child:first-letter{float:left;font-size:4.688rem;line-height:4.375rem;padding-top:.25rem;padding-right:.5rem;padding-left:.188rem;font-family:serif}}</style>{% endif %}
 </head>
 <body class="post-template" itemscope itemtype="http://schema.org/WebPage">
-{% if page.imagefeature %}
+    {% if page.imagefeature %}
         <main id="notepad-post-container" class="notepad-post-container intro-effect-sliced" role="main">
             <header class="notepad-post-header">
                 <div class="bg-img"></div>
 
                 <div class="notepad-post-menu-header">
-{% else %}
+    {% else %}
         <main id="notepad-post-container-simple" class="notepad-post-container-simple" role="main">
             <header class="notepad-post-header-simple">
                 <div class="notepad-post-menu-header-simple">
-{% endif %}
+    {% endif %}
                     <a class="notepad-blog-logo" href="{{ site.url }}">
                         <img src="{{ site.url }}/images/{{ site.logo }}" alt="Blog Logo" />
                     </a>
 
-                <div class="notepad-blog-menu">
-    <div class="notepad-mobile-menu show-for-small">
-        <a href="#"><i class="fa fa-bars"></i></a>
-    </div>
-    <ul class="notepad-menu">
-        <li class="notepad-mobile-close-btn show-for-small text-right">
-            <a href="#"><i class="fa fa-times"></i></a>
-        </li>
-        {% for link in site.links %}
-            {% assign icon = "" %}
-            {% if link.icon %}
-                {% capture icon %}<i class="fa fa-{{ link.icon }}"></i> {% endcapture %}
-            {% endif %}
+                    <div class="notepad-blog-menu">
+                        <div class="notepad-mobile-menu show-for-small">
+                            <a href="#"><i class="fa fa-bars"></i></a>
+                        </div>
 
-            <li>
-                {% if link.external %}
-                    <a href="{{ link.url }}">{{ icon }}{{ link.title }}</a>
-                {% else %}
-                    <a href="{{ site.url }}{{ link.url }}">{{ icon }}{{ link.title }}</a>
-                {% endif %}
-            </li>
-        {% endfor %}
-        <li>
-            <a href="http://feeds.feedburner.com/MarmotzGithubIO" title="Flux RSS"><i class="fa fa-rss"></i> Flux RSS</a>
-        </li>
-    </ul>
-</div>
-            </div>
+                        <ul class="notepad-menu">
+                            <li class="notepad-mobile-close-btn show-for-small text-right">
+                                <a href="#"><i class="fa fa-times"></i></a>
+                            </li>
+                            {% for link in site.links %}
+                                {% assign icon = "" %}
+                                {% if link.icon %}
+                                    {% capture icon %}<i class="fa fa-{{ link.icon }}"></i> {% endcapture %}
+                                {% endif %}
+
+                                <li>
+                                    {% if link.external %}
+                                        <a href="{{ link.url }}">{{ icon }}{{ link.title }}</a>
+                                    {% else %}
+                                        <a href="{{ site.url }}{{ link.url }}">{{ icon }}{{ link.title }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            <li>
+                                <a href="http://feeds.feedburner.com/MarmotzGithubIO" title="Flux RSS"><i class="fa fa-rss"></i> Flux RSS</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
 {% capture pageTitle %}
     <h1>{{ page.title }}</h1>
     <p>
@@ -72,15 +74,16 @@
         {% endif %}
     </p>
 {% endcapture %}
-{% if page.imagefeature %}
-            <div class="notepad-post-title bg-check">
-                {{ pageTitle }}
-            </div>
-            <div class="bg-img"></div>
-        </header>
-        <button class="trigger bg-check" data-info="Lire"><span>Trigger</span></button>
-        <img src="{{ site.url }}/images/{{ page.imagefeature }}" alt="cover-image" />
-{% else %}
+
+        {% if page.imagefeature %}
+                <div class="notepad-post-title bg-check">
+                    {{ pageTitle }}
+                </div>
+                <div class="bg-img"></div>
+            </header>
+            <button class="trigger bg-check" data-info="Lire"><span>Trigger</span></button>
+            <img src="{{ site.url }}/images/{{ page.imagefeature }}" alt="cover-image" />
+        {% else %}
                 <div class="notepad-post-title-simple row">
                     <div class="small-12 columns">
                         <div class="notepad-post-meta-simple">
@@ -89,31 +92,46 @@
                     </div>
                 </div>
             </header>
-{% endif %}
-        {% if page.imagefeature %}<article class="notepad-post-content post">{% else %}<article class="notepad-post-content post tag-simple">{% endif %}
-            <div>{{ content }}
-            </div>
-        </article>
-        <div class="cf"></div>
-{% if site.share %}{% include share.html %}{% endif %}
-        <div class="cf"></div>
+        {% endif %}
 
-{% include signoff.html %}
+        {% if page.imagefeature %}
+            <article class="notepad-post-content post">
+        {% else %}
+            <article class="notepad-post-content post tag-simple">
+        {% endif %}
+                <div>{{ content }}</div>
+            </article>
 
-        <div class="cf"></div>
-        {% if site.disqus_shortname and page.comments == true %}
-        <section class="notepad-disqus row">
-    <div class="small-12 columns">
-        <h1 class="notepad-comments-header">Comments</h1>
-        <div id="disqus_thread"></div>
-        {% include disqus_comments.html %}
-    </div>
-</section>
-{% endif %}
-        <div class="cf"></div>
+            <nav class="pagination" role="navigation">
+                {% if page.previous.url %}
+                    <a class="newer-posts" href="{{ page.previous.url }}"><i class="fa fa-chevron-left"></i> {{page.previous.title}}</a>
+                {% endif %}
 
-    {% include footer.html %}
-</main>
-{% include scripts.html %}
+                {% if page.next.url %}
+                    <a class="older-posts" href="{{ page.next.url }}">{{ page.next.title }} <i class="fa fa-chevron-right"></i></a>
+                {% endif %}
+            </nav>
+
+            <div class="cf"></div>
+            {% if site.share %}{% include share.html %}{% endif %}
+            <div class="cf"></div>
+
+            {% include signoff.html %}
+
+            <div class="cf"></div>
+            {% if site.disqus_shortname and page.comments == true %}
+                <section class="notepad-disqus row">
+                    <div class="small-12 columns">
+                        <h1 class="notepad-comments-header">Commentaires</h1>
+                        <div id="disqus_thread"></div>
+                        {% include disqus_comments.html %}
+                    </div>
+                </section>
+            {% endif %}
+            <div class="cf"></div>
+
+            {% include footer.html %}
+        </main>
+    {% include scripts.html %}
 </body>
 </html>

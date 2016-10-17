@@ -58,22 +58,21 @@ tags        : [marmotz, Renaud LITTOLFF, LITTOLFF, Javascript, Angular, Angular1
     </article>
 	{% endfor %}
     <nav class="pagination" role="navigation">
-    {% if paginator.previous_page %}
-	    {% if paginator.previous_page == 1 %}
-	    <a class="newer-posts" href="{{ site.url }}"><i class="fa fa-chevron-left"></i> Plus récent</a>
-	    {% else %}
-	    <a class="newer-posts" href="{{ site.url }}/page{{ paginator.previous_page }}"><i class="fa fa-chevron-left"></i> Plus récent</a>
-	    {% endif %}
-	{% else %}
-    <span class="newer-posts faded"><i class="fa fa-chevron-left"></i> Plus récent</span>
-    {% endif %}
-
-
-    <span class="page-number">Page {{ paginator.page }} / {{ paginator.total_pages }}</span>
-    	{% if paginator.next_page %}
-        <a class="older-posts" href="{{ site.url }}/page{{ paginator.next_page }}/">Plus ancien <i class="fa fa-chevron-right"></i></a>
+        {% if paginator.previous_page %}
+    	    {% if paginator.previous_page == 1 %}
+                <a class="newer-posts" href="{{ site.url }}"><i class="fa fa-chevron-left"></i> Plus récent</a>
+    	    {% else %}
+    	       <a class="newer-posts" href="{{ site.url }}/page{{ paginator.previous_page }}"><i class="fa fa-chevron-left"></i> Plus récent</a>
+    	    {% endif %}
     	{% else %}
-    	<span class="older-posts faded">Plus ancien <i class="fa fa-chevron-right"></i></span>
+            <span class="newer-posts faded"><i class="fa fa-chevron-left"></i> Plus récent</span>
+        {% endif %}
+
+        <span class="page-number">Page {{ paginator.page }} / {{ paginator.total_pages }}</span>
+    	{% if paginator.next_page %}
+            <a class="older-posts" href="{{ site.url }}/page{{ paginator.next_page }}/">Plus ancien <i class="fa fa-chevron-right"></i></a>
+    	{% else %}
+    	   <span class="older-posts faded">Plus ancien <i class="fa fa-chevron-right"></i></span>
     	{% endif %}
 	</nav>
 {% else %}

@@ -1,17 +1,15 @@
 ---
-layout       : post
-title        : "AngularJS 1 vs Angular 2 : Initialisation"
-date         : 2016-10-16 20:23:00 +0200
-category     : Tutoriel
-tags         : [ Tutoriel, AngularJS 1, Angular 2, Comparaison versions AngularJS ]
-image:
-  feature: 404.jpg
+layout   : post
+title    : "AngularJS 1 vs Angular 2 : Initialisation"
+date     : 2016-10-16 20:23:00 +0200
+tags     : [ Tutoriel, AngularJS 1, Angular 2, Comparaison versions AngularJS ]
+comments : true
 ---
 Angular 2 vient de sortir et vous vous demandez ce que vaut cette nouvelle version par rapport à la précédente, ses qualités, ses défauts, ses différences ?
 
 Ça tombe bien, on va comparer, à chaque étape, les forces et les faiblesses de chacune des versions grâce au développement d'une même application: un agenda en ligne.
 
-![Départ]({{ site.url }}/images/2016/2016-10-16-angularjs1-vs-angular2-initialisation-cover.jpg)
+![Départ]({{ site.url }}/images/2016/2016-10-16-angularjs1-vs-angular2-initialisation.jpg)
 
 # Avant propos
 
