@@ -140,8 +140,9 @@ Pour cette nouvelle version, c'est __beaucoup__ plus simple.
 
 L'équipe Angular a créé un outil qui permet d'initialiser et de générer des bouts de code, sobrement appelé angular-cli.
 
+<div class="notice" markdown="1">
 **Note:** à l'heure de l'écriture de cet article, angular-cli est encore en beta mais commence à être suffisamment stable pour être utilisé.
-{: .notice}
+</div>
 
 Pour l'installer, rien de plus simple (n'ayez pas peur des nombreux messages, warnings et erreurs qui pourraient s'afficher durant l'installation):
 
@@ -176,5 +177,6 @@ De l'autre, Angular 2 a un outil officiel qui initialise l'application, installe
 
 __Un point pour Angular 2 qui sort grand vainqueur de cette première étape.__
 
+<div class="notice" markdown="1">
 **Note:** Vous pouvez retrouver [le projet AngularJS 1](https://github.com/marmotz/calendar-angularjs1) et [le projet Angular 2](https://github.com/marmotz/calendar-angular2) dans leurs dépôts github respectifs.
-{: .notice}
+</div>

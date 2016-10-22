@@ -39,7 +39,7 @@ angular
 
 ## Création du premier composant
 
-{% note %}
+<div class="notice" markdown="1">
 **Les composants:**
 
 La principale nouveauté d'AngularJS 1.5 a été l'arrivée des composants, un nouveau type de directive.
@@ -49,7 +49,7 @@ Le but principal est de décomposer en briques élémentaires l'application pour
 Au lieu de faire une grosse page HTML avec un controller qui gère tout ça, on va découper en plus petits éléments.
 
 De plus, cette approche est la même que pour Angular2. Nous allons donc l'utiliser.
-{% endnote %}
+</div>
 
 Nous allons maintenant créer notre premier composant qui sera la page d'accueil de notre agenda.
 
@@ -191,15 +191,15 @@ Ici nous avons 2 dépendances:
 
 Ici nous appelons la méthode `config` de notre module qui va nous permettre de modifier la configuration de notre application. En l'occurrence, nous allons modifier la configuration du routeur pour créer une nouvelle route pour notre composant.
 
-{% note %}
-****Le routeur:****
+<div class="notice" markdown="1">
+**Le routeur:**
 
 Puisque notre application est en javascript et s'exécute entièrement sur le navigateur, coté client donc, nous n'allons pas recharger la page.
 
 Comment allons-nous faire pour "changer de page" et afficher notre formulaire de création de rendez-vous ?
 
 Le routeur est le module qui nous permet de faire ça en liant une url à un controller.
-{% endnote %}
+</div>
 
 `$routeProvider` est un objet qui permet de configurer le routeur. Ici, nous lui disons simplement que si l'url est `/calendar` alors il doit utiliser le template `<mz-calendar></mz-calendar>`. Cela signifie qu'il remplacera la page courante par ce code HTML. Toute la page ? Non, il va juste vider la balise qui contient l'attribut `ng-view` qui est dans `app/index.html`.
 
@@ -386,13 +386,13 @@ On retrouve le mode strict et la création d'un nouveau module avec un tableau d
 
 Ici la création du service se fait grâce à la méthode `factory`.
 
-{% note %}
+<div class="notice" markdown="1">
 **Les providers:**
 
 Pour initialiser des objets dans l'injecteur de dépendances, angular propose un [système complet de providers](https://docs.angularjs.org/guide/providers) qui permet de faire tout ce qu'on veut.
 
 Nous aurons sûrement l'occasion d'en rencontrer d'autres.
-{% endnote %}
+</div>
 
 Voici une factory minimaliste:
 

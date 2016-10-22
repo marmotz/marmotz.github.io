@@ -8,7 +8,6 @@ dropcap          : true
 # or use the hint from http://jekyllrb.com/docs/github-pages/ to keep this the same
 # whether working locally or remotely. Start Jekyll with: jekyll serve --baseurl ''
 url: "https://marmotz.github.io"
-url: "http://localhost:4000"
 
 # Owner/author information
 owner:
@@ -48,7 +47,6 @@ links:
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone      : Europe/Paris
 future        : false
-show_drafts   : true
 highlighter   : rouge
 markdown      : kramdown
 paginate      : 5
@@ -89,3 +87,7 @@ jekyll-archives:
 gems:
   - jekyll-paginate
   - jekyll-archives
+
+
+# url         : "http://localhost:4000"
+# show_drafts : true
