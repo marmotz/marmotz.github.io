@@ -8,6 +8,9 @@ Dans [l'épisode précédent]({% post_url 2016-10-16-angularjs1-vs-angular2-init
 
 ![Une affaire de brique]({{ site.url }}/images/2016/2016-10-23-angularjs1-vs-angular2-premiers-composants.jpg)
 
+* toc
+{:toc}
+
 Pour commencer, nous allons afficher le tableau de la semaine à venir avec des rendez-vous.
 
 # AngularJS 1
@@ -133,15 +136,13 @@ angular
 </table>
 {% endraw %}```
 
-### Explications
-
 Prenons quelques minutes pour expliquer ce que nous venons de créer.
 
-#### Arborescence
+### Arborescence
 
 Tout d'abord notre composant est créé dans le répertoire `components` qui regroupera tous nos composants. Il est composé d'un fichier `.js` qui contient la définition du composant ainsi que son code métier, le controller, et d'un fichier `.html` qui contient la vue du composant, c'est à dire concrètement le code HTML.
 
-#### Mode strict
+### Mode strict
 
 ```javascript
 "use strict";
@@ -149,7 +150,7 @@ Tout d'abord notre composant est créé dans le répertoire `components` qui reg
 
 C'est une directive javascript qui indique au navigateur d'exécuter le code en [mode strict](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Strict_mode). Prenez l'habitude de mettre systématiquement cette ligne au début de chacun de vos fichiers javascript, cela vous permettra de faire un code un peu plus propre car cela interdit un certain nombre de mauvaises pratiques provoquant des bugs parfois difficiles à identifier. Notamment, cela vous obligera à déclarer toutes les variables avant de pouvoir les utiliser.
 
-#### Création d'un nouveau module
+### Création d'un nouveau module
 
 ```javascript
 angular
@@ -173,7 +174,7 @@ Ici nous avons 2 dépendances:
 * ngRoute est le module Angular standard pour gérer les routes. Nous y reviendrons plus tard.
 * mzCalendar.service.booking est un service que nous allons écrire plus tard.
 
-#### Configuration de la route
+### Configuration de la route
 
 ```javascript
     .config(
@@ -212,7 +213,7 @@ Pour ce projet, nous allons utiliser ngRoute.
 
 D'accord mais c'est quoi cette balise HTML ? C'est lié à notre composant. Nous en reparlons juste après. Mais d'abord, parlons quelques instants de l'injection de dépendances.
 
-#### Injection de dépendances
+### Injection de dépendances
 
 Angular est fourni avec un outil d'[injection de dépendances](https://docs.angularjs.org/guide/di).
 
@@ -263,7 +264,7 @@ Cela oblige à créer une fonction ou un objet et la configuration se fait aprè
 
 Angular préconise la méthode avec le tableau et déconseille fortement la méthode avec seulement la fonction.
 
-#### Création du composant
+### Création du composant
 
 ```javascript
     .component(
@@ -288,7 +289,7 @@ Ensuite, il y a `templateUrl` qui indique le fichier contenant le template du co
 
 Et enfin, le code du controller.
 
-#### Controller
+### Controller
 
 ```javascript
             [
@@ -338,7 +339,7 @@ Le reste du code du controller est assez simple à comprendre. Nous générons u
 
 Nous pouvons imaginer ici que cette méthode pourrait appeler une API pour récupérer les données ou bien que ce soit stocké dans le LocalStorage. Peu importe, c'est le service qui s'occupe de cela.
 
-#### Template
+### Template
 
 Tout d'abord, il faut savoir que dans le template, le controller du composant est accessible grâce à la variable `$ctrl`.
 

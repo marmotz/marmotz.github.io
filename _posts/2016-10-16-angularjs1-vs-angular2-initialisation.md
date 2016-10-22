@@ -11,6 +11,9 @@ Angular 2 vient de sortir et vous vous demandez ce que vaut cette nouvelle versi
 
 ![Départ]({{ site.url }}/images/2016/2016-10-16-angularjs1-vs-angular2-initialisation.jpg)
 
+* toc
+{:toc}
+
 # Avant propos
 
 Je travaille avec Linux et ne connais que ça. Les instructions suivantes sont donc toutes pour cet OS.
