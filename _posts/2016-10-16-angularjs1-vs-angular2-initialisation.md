@@ -13,7 +13,7 @@ Angular 2 vient de sortir et vous vous demandez ce que vaut cette nouvelle versi
 
 # Avant propos
 
-Je travaille avec et ne connais que Linux. Les instructions suivantes sont donc toutes pour cet OS.
+Je travaille avec Linux et ne connais que ça. Les instructions suivantes sont donc toutes pour cet OS.
 
 Si un développeur MacOS peut m'indiquer les commandes et les éventuelles différences qu'il peut y avoir avec MacOS, je me ferai un plaisir de compléter ce tutoriel.
 

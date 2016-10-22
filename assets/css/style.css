@@ -16,6 +16,24 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Montserrat", sans-serif; }
 
+.header-link {
+  display: none;
+  margin-left: 15px;
+}
+
+.header-link i.fa {
+  color: #ccc;
+}
+
+h1:hover .header-link,
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link,
+h5:hover .header-link,
+h6:hover .header-link {
+  display: inline-block;
+}
+
 .notepad-parallax-background {
   position: fixed;
   top: 0;
@@ -213,7 +231,7 @@ main, .notepad-share-icons, .notepad-disqus {
       padding-bottom: 12.5rem; } }
 
 .notepad-content .notepad-index-post {
-  visibility: hidden;
+  /*visibility: hidden;*/
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
   border-bottom: 0.0625rem solid #d9d9d9; }

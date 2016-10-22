@@ -1,20 +1,19 @@
 'use strict';
 
 var notepad = (function ($) {
-
-    var indexPostClass = '.notepad-index-post',
-        mobileMenuButton = '.notepad-mobile-menu a',
-        mobileMenuCloseButton = '.notepad-mobile-close-btn',
-        mainMenu = '.notepad-menu',
-        bgCheckClass = '.bg-check',
-        postBgImages = '.bg-img img',
-        postCoverImg = '.notepad-post-header .bg-img',
+    var indexPostClass        = '.notepad-index-post';
+    var mobileMenuButton      = '.notepad-mobile-menu a';
+    var mobileMenuCloseButton = '.notepad-mobile-close-btn';
+    var mainMenu              = '.notepad-menu';
+    var bgCheckClass          = '.bg-check';
+    var postBgImages          = '.bg-img img';
+    var postCoverImg          = '.notepad-post-header .bg-img';
 
     // post animations on homepage
-    indexPostAnimate = function () {
+    var indexPostAnimate = function () {
         if ($(indexPostClass).length) {
             $(indexPostClass).each(function () {
-            var postPos = $(this).offset().top;
+            var postPos = $(this).css('visibility', 'hidden').offset().top;
             var topOfWindow = $(window).scrollTop(),
                 windowHeight = $(window).height();
                 if (postPos < topOfWindow + (windowHeight/ 1.4)) {
@@ -22,9 +21,9 @@ var notepad = (function ($) {
                 }
             });
         }
-    },
+    };
 
-    mobileMenu = function () {
+    var mobileMenu = function () {
         if($(mainMenu).length) {
             $(mobileMenuButton).on('click', function(e){
                 e.preventDefault();
@@ -35,27 +34,27 @@ var notepad = (function ($) {
                 $(mainMenu).removeClass('opened');
             });
         }
-    },
+    };
 
-    headerTitlesBackgroundCheck = function () {
+    var headerTitlesBackgroundCheck = function () {
         if ($(bgCheckClass).length && $(postBgImages).length) {
             BackgroundCheck.init({
                 targets: bgCheckClass,
                 images: postBgImages
             });
         }
-    },
+    };
 
-    postHeaderCoverImg = function () {
+    var postHeaderCoverImg = function () {
         var coverImage = $('[alt=cover-image]');
         if (coverImage.length) {
             $(postCoverImg).append('<img src="' + coverImage.attr('src') + '">');
             coverImage.remove();
         }
-    },
+    };
 
     // notepad javascripts initialization
-    init = function () {
+    var init = function () {
         indexPostAnimate();
         $(window).on('scroll', function() {
             indexPostAnimate();
