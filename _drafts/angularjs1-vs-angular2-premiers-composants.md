@@ -127,7 +127,7 @@ angular
             <td ng-repeat="day in $ctrl.days">
                 <ul>
                     <li ng-repeat="booking in day.bookings">
-                        {{ booking.date | date:'HH:mm' }} - {{ booking.label }}
+                        {{ booking.datetime | date:'HH:mm' }} - {{ booking.label }}
                     </li>
                 </ul>
             </td>
@@ -381,12 +381,15 @@ angular.module('mzCalendar.service.booking', [])
                 var cpt = 1;
 
                 function getRandomBooking(date) {
-                    date = new Date(date);
-                    date.setHours(getRandomInt(9, 18), getRandomInt(0, 4) * 15);
+                    var datetime = new Date(date);
+                    datetime.setHours(
+                        getRandomInt(9, 18),
+                        getRandomInt(0, 4) * 15
+                    );
 
                     return {
-                        date  : date,
-                        label : 'Booking #' + (cpt++)
+                        datetime : date,
+                        label    : 'Booking #' + (cpt++)
                     };
                 }
 
@@ -401,7 +404,11 @@ angular.module('mzCalendar.service.booking', [])
                             );
                         }
 
-                        return bookings;
+                        return bookings.sort(
+                            function(a, b) {
+                                return a.datetime.getTime() - b.datetime.getTime()
+                            }
+                        );
                     }
                 };
             }
@@ -521,3 +528,150 @@ Non. Nous allons configurer l'url par défaut. Modifier le fichier `app/app.js`:
 L'action que nous allons faire est une simple redirection vers une url définie: `/calendar`. Et cela tombe bien, c'est justement l'url que nous avons configuré dans notre composant.
 
 Et voilà, nous avons enfin un calendrier avec des rendez-vous aléatoires qui s'affiche.
+
+# AngularJS 2
+
+Nous allons maintenant essayer de faire la même chose avec Angular2.
+
+Tout d'abord il est important de noter qu'Angular2 peut utiliser javascript ES5, ES6 ou TypeScript.
+
+<div class="notice" markdown="1">
+**ES5 ? ES6 ? TypeScript ?**
+
+Javascript, comme tous les langages, évolue dans le temps et a un certain nombre de version. La version la plus communément utilisées actuellement et la version ES5, pour ECMAScript Edition 5.
+
+En juin 2015, une nouvelle version apportant un grand nombre d'amélioration est sortie sous le nom d'ES2015 ou ES6.
+
+Toutes les nouveautés d'ES6 ne sont pas encore supportées par tous les navigateurs. Vous pouvez vérifier qu'une fonctionnalité est supportée par les principaux navigateurs sur le site [http://caniuse.com](http://caniuse.com/). Par exemple, on peut voir que les [arrow function](http://caniuse.com/#feat=arrow-functions) sont supportées sur les dernières versions des navigateurs, sauf IE et Opera Mini, que [`let`](http://caniuse.com/#feat=fetch) est supporté partout sauf sur Opera Mini, etc...
+
+[TypeScript](https://www.typescriptlang.org/) est un langage développé par Microsoft qui est une surcouche à javascript et qui se transpile en ES5, c'est à dire que le code écrit en TypeScript sera ensuite traduit en code ES5 pour que les navigateurs puissent l'exécuter.
+
+Google a travaillé activement avec Microsoft pour que la nouvelle version de TypeScript puisse répondre aux besoins d'Angular2.
+</div>
+
+L'équipe Angular recommande d'utiliser TypeScript. Alors c'est ce que nous allons utiliser. Et cela tombe bien, angular-cli nous a généré du TypeScript.
+
+## Création du premier composant
+
+### Création d'un nouveau module
+
+Générons maintenant un nouveau module grâce à angular-cli:
+
+```bash
+ng generate module mz-calendar
+```
+
+Le répertoire `src/app/mz-calendar` sera créé et les fichiers `mz-calendar.module.ts`, `mz-calendar.component.css`, `mz-calendar.component.html`, `mz-calendar.component.spec.ts` et `mz-calendar.component.ts` seront générés dans ce répertoire.
+
+Les fonctionnalités d'une application sont regroupées en [modules](https://angular.io/docs/ts/latest/guide/ngmodule.html). Contrairement à AngularJS 1, chaque module Angular2 doit préciser ce dont il a besoin et ce qu'il expose au reste de l'application.
+
+Nous l'avons vu, la génération du module s'est accompagné de la génération d'un composant. Ce composant est automatiquement exposé au reste de l'application afin qu'il soit utilisé.
+
+Modifions notre composant pour récupérer les rendez-vous:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+import BookingService from '../shared/booking.service';
+import Day from '../shared/day';
+
+@Component({
+    selector    : 'app-mz-calendar',
+    templateUrl : './mz-calendar.component.html',
+    styleUrls   : [ './mz-calendar.component.css' ],
+    providers   : [ BookingService ]
+})
+export class MzCalendarComponent implements OnInit {
+    private bookingService: BookingService;
+
+    public days: Array<Day>;
+
+    constructor(bookingService: BookingService) {
+        this.bookingService = bookingService;
+        this.days           = [];
+    }
+
+    ngOnInit() {
+        // generate calendar days
+        for (var i = 0; i < 7; i++) {
+            var date = new Date();
+            date.setDate(date.getDate() + i);
+
+            this.days.push(
+                {
+                    date     : date,
+                    bookings : this.bookingService.getByDate(date)
+                }
+            );
+        }
+    }
+}
+```
+
+### Imports
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+```
+
+Avec TypeScript, chaque fichier est indépendant et n'a aucun accès au reste de l'application sauf à l'importe explicitement.
+
+Ici on importe l'annotation `Component` et l'interface `OnInit` depuis le module `@angular/core` qui est le principal module d'angular.
+
+```typescript
+import BookingService from '../shared/booking.service';
+import Day from '../shared/day';
+```
+
+Sur ce même principe, les lignes précédentes importe des classes... que nous allons créer plus tard:
+
+### Annotations
+
+TypeScript supporte les annotations sous la forme de décorateurs.
+
+Le composant généré par angular-cli est décoré par l'annotation `@Component` qui permet de préciser un certain nombre d'informations pour le composant dont la classe suit:
+
+```typescript
+@Component({
+    selector    : 'app-mz-calendar',
+    templateUrl : './mz-calendar.component.html',
+    styleUrls   : [ './mz-calendar.component.css' ],
+    providers   : [ BookingService ]
+})
+```
+
+* `selector`: nom de la balise html que l'on peut utiliser et qui instanciera automatiquement ce composant.
+* `templateUrl`: chemin vers le fichier HTML du template du composant.
+* `styleUrls`: tableau de chemin de fichier CSS liés à ce composant.
+* `providers`: tableau de services à injecter dans le constructeur du composant.
+
+```typescript
+export class MzCalendarComponent implements OnInit {
+    private bookingService: BookingService;
+
+    public days: Array<Day>;
+
+    constructor(bookingService: BookingService) {
+        this.bookingService = bookingService;
+        this.days           = [];
+    }
+```
+
+`MzCalendarComponent` implémente l'interface `OnInit`. De ce fait, elle devra implémenter la méthode `ngOnInit` qui est automatiquement appelé dès lors que le composant est initialisé.
+
+    ngOnInit() {
+        // generate calendar days
+        for (var i = 0; i < 7; i++) {
+            var date = new Date();
+            date.setDate(date.getDate() + i);
+
+            this.days.push(
+                {
+                    date     : date,
+                    bookings : this.bookingService.getByDate(date)
+                }
+            );
+        }
+    }
+}
+```
