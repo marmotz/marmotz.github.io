@@ -645,6 +645,8 @@ Le composant généré par angular-cli est décoré par l'annotation `@Component
 * `styleUrls`: tableau de chemin de fichier CSS liés à ce composant.
 * `providers`: tableau de services à injecter dans le constructeur du composant.
 
+### Controller
+
 ```typescript
 export class MzCalendarComponent implements OnInit {
     private bookingService: BookingService;
@@ -657,8 +659,9 @@ export class MzCalendarComponent implements OnInit {
     }
 ```
 
-`MzCalendarComponent` implémente l'interface `OnInit`. De ce fait, elle devra implémenter la méthode `ngOnInit` qui est automatiquement appelé dès lors que le composant est initialisé.
+`MzCalendarComponent` implémente l'interface `OnInit`. De ce fait, elle devra implémenter la méthode `ngOnInit` qui est automatiquement appelée dès lors que le composant est initialisé:
 
+```typescript
     ngOnInit() {
         // generate calendar days
         for (var i = 0; i < 7; i++) {
@@ -666,12 +669,264 @@ export class MzCalendarComponent implements OnInit {
             date.setDate(date.getDate() + i);
 
             this.days.push(
-                {
-                    date     : date,
-                    bookings : this.bookingService.getByDate(date)
-                }
+                new Day(
+                    date,
+                    this.bookingService.getByDate(date)
+                )
             );
         }
     }
 }
 ```
+
+### Modèles
+
+Vous pouvez remarquer également l'utilisation de la classe Day plutôt que d'un objet anonyme.
+
+Nous aurions pu faire la même chose en javascript avec AngularJS 1, mais l'utilisation des classes TypeScript et la génération facilitée par angular-cli rendent les choses plus évidentes avec Angular2.
+
+```bash
+ng generate class shared/day
+```
+
+Cela génère le fichier `src/app/shared/day.ts` que nous compléter comme cela:
+
+```typescript
+import Booking from './booking';
+
+export default class Day {
+    public date     : Date;
+    public bookings : Array<Booking>;
+
+    constructor(date, bookings) {
+        this.date     = date;
+        this.bookings = bookings;
+    }
+}
+```
+
+Idem pour le modèle `Booking`:
+
+```bash
+ng generate class shared/booking
+```
+
+Cela génère le fichier `src/app/shared/booking.ts` que nous compléter comme ceci:
+
+```typescript
+export default class Booking {
+    public datetime: Date;
+    public label: string;
+
+    constructor(datetime, label) {
+        this.datetime = datetime;
+        this.label    = label;
+    }
+}
+```
+
+### Template
+
+Revenons à notre composant. Dans son décorateur, il y a le lien vers un fichier HTML:
+
+```typescript
+@Component({
+    selector    : 'app-mz-calendar',
+    templateUrl : './mz-calendar.component.html',
+    styleUrls   : [ './mz-calendar.component.css' ],
+    providers   : [ BookingService ]
+})
+```
+
+Modifions donc le fichier `src/app/mz-calendar/mz-calendar.component.html`:
+
+```html
+<table>
+    <thead>
+        <tr>
+            <th *ngFor="let day of days">
+                {{ day.date | date:'dd/MM/yyyy' }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td *ngFor="let day of days">
+                <ul>
+                    <li *ngFor="let booking of day.bookings">
+                        {{ booking.datetime | date:'HH:mm' }} - {{ booking.label }}
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+```
+
+C'est un copié/collé de la version AngularJS 1 à quelques exceptions près.
+
+L'équivalent de la directive ng-repeat est la directive ngFor. Notez que si les directives AngularJS 1 sont toutes en minuscule et en dash-case (séparées par des tirets), les directives Angular 2 sont en lowerCamelCase et sont donc sensibles à la casse.
+
+La notation utilise `*` pour exprimer que cette directive modifie le HTML et, donc, qu'elle créé un nouveau template enfant. C'est en fait un raccourci pour une forme plus longue du template:
+
+```html
+<div *ngFor="let item of data">
+    {{ item }}
+</div>
+```
+
+... est l'équivalent de...
+
+```html
+<template ngFor let-item [ngForOf]="data">
+    <div>{{ item }}</div>
+</template>
+```
+
+Notez enfin que l'expression à l'intérieur des guillemets ressemble à [la nouvelle notation `for...of`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Instructions/for...of) apparu avec ES6.
+
+## Création du service BookingService
+
+Générons maintenant le service:
+
+```bash
+ng generate service shared/booking
+```
+
+Cela génère les fichiers `src/app/shared/booking.service.ts` et `src/app/shared/booking.service.spec.ts`. Modifiez le fichier `src/app/shared/booking.service.ts` comme ceci:
+
+```typescript
+import { Injectable } from '@angular/core';
+
+import Booking from './booking';
+
+@Injectable()
+export default class BookingService {
+    private cpt = 1;
+
+    private getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    private getRandomBooking(date) {
+        let datetime = new Date(date);
+        datetime.setHours(
+            this.getRandomInt(9, 18),
+            this.getRandomInt(0, 4) * 15
+        );
+
+        return new Booking(
+            datetime,
+            'Booking #' + (this.cpt++)
+        );
+    }
+
+    public getByDate(date) {
+        let bookings: Array<Booking> = [];
+
+        let nbBookings = this.getRandomInt(0, 10);
+        for (let i = 0; i < nbBookings; i++) {
+            bookings.push(
+                this.getRandomBooking(date)
+            );
+        }
+
+        return bookings.sort(
+            function(a, b) {
+                return a.datetime.getTime() - b.datetime.getTime();
+            }
+        );
+    }
+}
+```
+
+Remarquez que le décorateur `Injectable` est importé puis utilisé sur la classe du service. Il sert à indiquer que cette classe peut être injecté via l'injecteur de dépendances d'Angular2 comme nous l'avons vu plus tôt.
+
+## Intégration à l'application
+
+Maintenant que nous avons notre composant, ses modèles et son service, il faut bien entendu l'intégrer à l'application.
+
+### Utilisation du routeur
+
+Contrairement à l'angular-seed qui avait déjà intégré le routeur, angular-cli ne nous l'a pas mis par défaut.
+
+Et bien installons-le.
+
+Modifiez le fichier `src/app/app.module.ts`:
+
+```typescript
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+
+import { AppComponent } from './app.component';
+import { MzCalendarModule } from './mz-calendar/mz-calendar.module';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot([
+      { path: '**', redirectTo: 'calendar' }
+    ]),
+    MzCalendarModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+Le routeur est importé depuis le module `@angular/router`, puis ajouté au tableau `imports` du décorateur du module tout en configurant la route par défaut:
+
+```typescript
+  imports: [
+    // ...
+    RouterModule.forRoot([
+      { path: '**', redirectTo: 'calendar' }
+    ]),
+    MzCalendarModule
+  ],
+```
+
+La route `**` est une route spéciale au cas où le chemin courant ne correspond à rien. C'est l'équivalent de la méthode `otherwise` du routeur d'AngularJS 1. Cette route fait une redirection vers l'url `calendar`.
+
+<div class="notice" markdown="1">
+**Les chemins du routeur ne commençent jamais par un `/`**
+</div>
+
+Remarquez que nous importons également le module `MzCalendarModule` que nous avons créé en même temps que le composant.
+
+Modifions-le afin de configurer la route de notre composant:
+
+```typescript
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { MzCalendarComponent } from './mz-calendar.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: 'calendar', component: MzCalendarComponent }
+    ])
+  ],
+  declarations: [MzCalendarComponent]
+})
+export class MzCalendarModule { }
+```
+
+La méthode `RouterModule.forRoot` ne doit être utilisée qu'à la racine de l'application, dans AppModule. Quand vous êtes dans un composant, utilisez la méthode `RouterModule.forChild` pour ajouter des routes.
+
+Pour que notre composant soit accessible dans le reste de l'application (où ce module est importé), il faut rajouter `MzCalendarComponent` dans la propriété `declarations` du module.
