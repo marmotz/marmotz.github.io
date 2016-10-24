@@ -542,7 +542,7 @@ Javascript, comme tous les langages, évolue dans le temps et a un certain nombr
 
 En juin 2015, une nouvelle version apportant un grand nombre d'amélioration est sortie sous le nom d'ES2015 ou ES6.
 
-Toutes les nouveautés d'ES6 ne sont pas encore supportées par tous les navigateurs. Vous pouvez vérifier qu'une fonctionnalité est supportée par les principaux navigateurs sur le site [http://caniuse.com](http://caniuse.com/). Par exemple, on peut voir que les [arrow function](http://caniuse.com/#feat=arrow-functions) sont supportées sur les dernières versions des navigateurs, sauf IE et Opera Mini, que [`let`](http://caniuse.com/#feat=fetch) est supporté partout sauf sur Opera Mini, etc...
+Toutes les nouveautés d'ES6 ne sont pas encore supportées par tous les navigateurs. Vous pouvez vérifier qu'une fonctionnalité est supportée par les principaux navigateurs sur le site [http://caniuse.com](http://caniuse.com/). Par exemple, on peut voir que les [arrow function](http://caniuse.com/#feat=arrow-functions) sont supportées sur les dernières versions des navigateurs, sauf IE et Opera Mini, que [`let`](http://caniuse.com/#feat=let) est supporté partout sauf sur Opera Mini, etc...
 
 [TypeScript](https://www.typescriptlang.org/) est un langage développé par Microsoft qui est une surcouche à javascript et qui se transpile en ES5, c'est à dire que le code écrit en TypeScript sera ensuite traduit en code ES5 pour que les navigateurs puissent l'exécuter.
 
