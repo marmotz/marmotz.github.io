@@ -1,6 +1,7 @@
 ---
 layout   : post
 title    : "AngularJS 1 vs Angular 2 : Premiers composants"
+date     : 2016-10-27 22:00:00 +0200
 tags     : [ Tutoriel, AngularJS 1, Angular 2, Comparaison versions AngularJS ]
 comments : true
 ---
@@ -45,7 +46,7 @@ angular
 <div class="notice" markdown="1">
 **Les composants:**
 
-La principale nouveauté d'AngularJS 1.5 a été l'arrivée des [composants](https://docs.angularjs.org/guide/component), un nouveau type de directive.
+La principale nouveauté d'AngularJS 1.5 a été l'arrivée des [composants](https://docs.angularjs.org/guide/component), un nouveau type de directives.
 
 Le but principal est de décomposer en briques élémentaires l'application pour que, d'une part, elles soient réutilisables et que, d'autre part, elles soient spécialisées.
 
@@ -165,14 +166,14 @@ angular
 
 Nous commençons par créer un nouveau module.
 
-`angular`, qui est une variable globale accessible partout, a une méthode `module` qui permet de créer un [module](https://docs.angularjs.org/guide/module). Pour créer un module, il est **obligatoire** de passer un tableau de dépendance en deuxième paramètre, même vide.
+`angular`, qui est une variable globale, a une méthode `module` qui permet de créer un nouveau [module](https://docs.angularjs.org/guide/module). Pour créer un module, il est **obligatoire** de passer un tableau de dépendance en deuxième paramètre, même vide.
 
-Si vous omettez ce deuxième paramètre, `module` tente de retourner un module qui porte ce nom ou lève une erreur dans le cas contraire.
+Si vous l'omettez, `module` cherche un module qui porte ce nom et le retourne s'il existe ou lève une erreur dans le cas contraire.
 
 Ici nous avons 2 dépendances:
 
 * ngRoute est le module Angular standard pour gérer les routes. Nous y reviendrons plus tard.
-* mzCalendar.service.booking est un service que nous allons écrire plus tard.
+* mzCalendar.service.booking est un service que nous allons créer plus tard.
 
 ### Configuration de la route
 
@@ -199,7 +200,7 @@ Ici nous appelons la méthode `config` de notre module qui va nous permettre de 
 
 Puisque notre application est en javascript et s'exécute entièrement sur le navigateur, coté client donc, nous n'allons pas recharger la page.
 
-Comment allons-nous faire pour "changer de page" et afficher notre formulaire de création de rendez-vous ? Nous allons utiliser un routeur qui permet de dire ce qu'il faut exécuter en fonction de l'url courante.
+Comment allons-nous faire pour "changer de page" et afficher notre formulaire de création de rendez-vous, par exemple ? Nous allons utiliser un routeur qui permet de dire ce qu'il faut exécuter en fonction de l'url courante.
 
 Voici les deux principaux:
 
@@ -211,7 +212,7 @@ Pour ce projet, nous allons utiliser ngRoute.
 
 `$routeProvider` est un objet qui permet de configurer ngRoute. Ici, nous lui disons simplement que si l'url est `/calendar` alors il doit utiliser le template `<mz-calendar></mz-calendar>`. Cela signifie qu'il remplacera la page courante par ce code HTML. Toute la page ? Non, il va juste vider la balise qui contient l'attribut `ng-view` qui est dans `app/index.html`.
 
-D'accord mais c'est quoi cette balise HTML ? C'est lié à notre composant. Nous en reparlons juste après. Mais d'abord, parlons quelques instants de l'injection de dépendances.
+D'accord mais qu'est-ce que la balise `<mz-calendar />` ? C'est lié à notre composant. Nous en reparlons juste après. Mais d'abord, parlons quelques instants de l'injection de dépendances.
 
 ### Injection de dépendances
 
@@ -248,7 +249,7 @@ La première consiste à ne pas mettre le tableau:
     )
 ```
 
-Vous allez me dire que c'est bien plus simple, alors pourquoi s'embêter avec un tableau ? Parce que dans ce cas-là, Angular se base sur le nom du paramètre et qu'en cas de minification du code, votre paramètre sera renommé... et cela ne fonctionnera plus. Angular déconseille fortement cette façon de faire. À un moment ou un autre, vous allez minifier votre code et vous n'aurez plus qu'à vous ouvrir les veines ou repasser dans tous vos fichiers.
+Vous pourriez vous dire que c'est bien plus simple et qu'il n'est pas logique de se compliquer la vie avec un tableau, mais dans ce cas-là, Angular se base sur le nom du paramètre. Or, en cas de minification du code, votre paramètre sera renommé... et cela ne fonctionnera plus. Angular déconseille donc fortement cette façon de faire. À un moment ou un autre, vous allez minifier votre code et vous n'aurez plus qu'à vous ouvrir les veines ou repasser dans tous vos fichiers.
 
 La deuxième façon de configurer l'injection de dépendances et d'utiliser la propriété d'annotation `$inject`:
 
@@ -260,7 +261,7 @@ routerConfig.$inject = [ '$routeProvider' ];
 myModule.config(routerConfig);
 ```
 
-Cela oblige à créer une fonction ou un objet et la configuration se fait après la déclaration, soit très loin des paramètres. Ce n'est pas toujours simple à faire et à lire.
+Cela oblige à créer une fonction ou un objet et la configuration se fait après la déclaration, soit souvent loin des paramètres. Ce n'est pas toujours simple à faire et à lire.
 
 Angular préconise la méthode avec le tableau et déconseille fortement la méthode avec seulement la fonction.
 
@@ -337,11 +338,11 @@ function MyController() {
 
 Le reste du code du controller est assez simple à comprendre. Nous générons un tableau de 7 objets qui contiennent chacun une propriété `date` et une propriété `bookings` qui contient les rendez-vous que nous retourne le service `BookingService` via la méthode `getByDate`.
 
-Nous pouvons imaginer ici que cette méthode pourrait appeler une API pour récupérer les données ou bien que ce soit stocké dans le LocalStorage. Peu importe, c'est le service qui s'occupe de cela.
+Nous pouvons imaginer ici que cette méthode appelle une API pour récupérer les données ou bien que c'est stocké dans le LocalStorage. Peu importe, c'est le service qui s'occupe de cela.
 
 ### Template
 
-Tout d'abord, il faut savoir que dans le template, le controller du composant est accessible grâce à la variable `$ctrl`.
+Tout d'abord, il faut savoir que dans le template, le controller du composant est, par défaut, accessible grâce à la variable `$ctrl`.
 
 Vous pouvez voir dans le template, des balises avec un attribut [`ng-repeat`](https://docs.angularjs.org/api/ng/directive/ngRepeat) qui, comme son nom l'indique, permet de répéter la balise (et ses enfants) en fonction de l'expression passée en paramètre.
 
@@ -357,7 +358,7 @@ Quant à `{% raw %}{{ foo }}{% endraw %}`, cela permet d'afficher la valeur de l
 
 De plus, Angular propose un système de filtres qui permet de modifier, formater ou filtrer la donnée courante. En l’occurrence, le filtre `date` permet de formater la date `day.date` en fonction du format passé en paramètre.
 
-Dans le `tbody`, il y a 2 `ng-repeat` imbriqués, mais c'est le même principe.
+Dans le `tbody`, il y a 2 `ng-repeat` imbriqués: c'est le même principe que précédemment.
 
 ## Création du service BookingService
 
@@ -424,9 +425,9 @@ Ici la création du service se fait grâce à la méthode `factory`.
 <div class="notice" markdown="1">
 **Les providers:**
 
-Pour initialiser des objets dans l'injecteur de dépendances, angular propose un [système complet de providers](https://docs.angularjs.org/guide/providers) qui permet de faire tout ce que nous voulons.
+Pour initialiser des objets dans l'injecteur de dépendances, angular propose un [système complet de providers](https://docs.angularjs.org/guide/providers) qui permettent de faire tout ce que nous voulons.
 
-Nous aurons sûrement l'occasion d'en rencontrer d'autres.
+Ici, nous allons voir `factory`, mais nous aurons sûrement l'occasion d'en rencontrer d'autres.
 </div>
 
 Voici une factory minimaliste:
@@ -449,7 +450,7 @@ Voici une factory minimaliste:
     )
 ```
 
-Cela peut aussi servir à instancier un objet en fonction d'autre chose ou d'initialiser l'objet instancié avec de la configuration par défaut, etc...
+Cela peut aussi servir à instancier un objet en fonction d'un autre objet ou à initialiser l'objet instancié avec de la configuration par défaut, par exemple.
 
 Le but d'une factory est donc de faire quelque chose de privé puis de retourner un objet qui sera le service.
 
@@ -457,7 +458,7 @@ Dans notre code, les deux méthodes `getRandomInt` et `getRandomBooking` sont pr
 
 ## Intégration à l'application
 
-Si vous lancez le serveur web (pour rappel, il suffit de lancer `npm start` puis d'accéder à `http://localhost:8000` dans votre navigateur préféré), vous ne verrez rien de plus. Et c'est normal.
+Si vous lancez le serveur web (pour rappel, il suffit de lancer `npm start` puis d'accéder à [`http://localhost:8000`](http://localhost:8000) dans votre navigateur préféré), vous ne verrez rien de plus. Et c'est normal.
 
 ### Chargement des fichiers javascript
 
@@ -496,7 +497,7 @@ Remarquez que nous n'ajoutons pas le BookingService dans les dépendances. Nous 
 Néanmoins, il est conseillé de mettre les dépendances dans chaque module et pour plusieurs raisons:
 
 * mettre toutes les dépendances dans le module root vous fera avoir une grosse quantité de dépendances et vous ne saurez pas facilement si une dépendance est toujours nécessaire.
-* si demain, AngularJS1 implémente le lazy loading, c'est à dire le chargement au moment où nous en avons besoin, il y a fort à parier que cela utilisera le systême de dépendances. En mettant tout dans le module root, vous chargerez tout dès le début et vous aurez donc de moins bonnes performances au démarrage de l'application.
+* si demain, AngularJS 1 implémente le lazy loading, c'est à dire le chargement au moment où nous en avons besoin, il y a fort à parier que cela utilisera le systême de dépendances. En mettant tout dans le module root, vous chargerez tout dès le début et vous aurez donc de moins bonnes performances au démarrage de l'application.
 * si vous comptez sur les dépendances du module parent, il se peut que le module enfant ne fonctionne plus du jour au lendemain parce que le module parent aura supprimé une dépendance.
 
 ### Ajout d'une redirection par défaut
@@ -527,7 +528,7 @@ Non. Nous allons configurer l'url par défaut. Modifier le fichier `app/app.js`:
 
 L'action que nous allons faire est une simple redirection vers une url définie: `/calendar`. Et cela tombe bien, c'est justement l'url que nous avons configuré dans notre composant.
 
-Et voilà, nous avons enfin un calendrier avec des rendez-vous aléatoires qui s'affiche.
+Et voilà, nous avons enfin un calendrier avec des rendez-vous aléatoires qui s'affichent.
 
 # AngularJS 2
 
@@ -538,13 +539,13 @@ Tout d'abord il est important de noter qu'Angular2 peut utiliser javascript ES5,
 <div class="notice" markdown="1">
 **ES5 ? ES6 ? TypeScript ?**
 
-Javascript, comme tous les langages, évolue dans le temps et a un certain nombre de version. La version la plus communément utilisées actuellement et la version ES5, pour ECMAScript Edition 5.
+Javascript, comme tous les langages, évolue dans le temps et a un certain nombre de versions. La version la plus communément utilisée actuellement est la version ES5, pour ECMAScript Edition 5.
 
 En juin 2015, une nouvelle version apportant un grand nombre d'amélioration est sortie sous le nom d'ES2015 ou ES6.
 
 Toutes les nouveautés d'ES6 ne sont pas encore supportées par tous les navigateurs. Vous pouvez vérifier qu'une fonctionnalité est supportée par les principaux navigateurs sur le site [http://caniuse.com](http://caniuse.com/). Par exemple, on peut voir que les [arrow function](http://caniuse.com/#feat=arrow-functions) sont supportées sur les dernières versions des navigateurs, sauf IE et Opera Mini, que [`let`](http://caniuse.com/#feat=let) est supporté partout sauf sur Opera Mini, etc...
 
-[TypeScript](https://www.typescriptlang.org/) est un langage développé par Microsoft qui est une surcouche à javascript et qui se transpile en ES5, c'est à dire que le code écrit en TypeScript sera ensuite traduit en code ES5 pour que les navigateurs puissent l'exécuter.
+[TypeScript](https://www.typescriptlang.org/) est un langage développé par Microsoft qui est une surcouche à javascript et qui se transpile en ES5, c'est à dire que le code écrit en TypeScript sera ensuite traduit en code ES5 pour que les navigateurs actuels puissent l'exécuter.
 
 Google a travaillé activement avec Microsoft pour que la nouvelle version de TypeScript puisse répondre aux besoins d'Angular2.
 </div>
@@ -614,7 +615,7 @@ export class MzCalendarComponent implements OnInit {
 import { Component, OnInit } from '@angular/core';
 ```
 
-Avec TypeScript, chaque fichier est indépendant et n'a aucun accès au reste de l'application sauf à l'importe explicitement.
+Avec TypeScript, chaque fichier est indépendant et n'a aucun accès au reste de l'application sauf à l'importer explicitement.
 
 Ici on importe l'annotation `Component` et l'interface `OnInit` depuis le module `@angular/core` qui est le principal module d'angular.
 
@@ -623,13 +624,13 @@ import BookingService from '../shared/booking.service';
 import Day from '../shared/day';
 ```
 
-Sur ce même principe, les lignes précédentes importe des classes... que nous allons créer plus tard:
+Sur ce même principe, les lignes précédentes importent des classes... que nous allons créer plus tard.
 
 ### Annotations
 
 TypeScript supporte les annotations sous la forme de décorateurs.
 
-Le composant généré par angular-cli est décoré par l'annotation `@Component` qui permet de préciser un certain nombre d'informations pour le composant dont la classe suit:
+Le composant généré par angular-cli est décoré par l'annotation `@Component` qui permet de préciser un certain nombre d'informations pour la classe qu'elle décore:
 
 ```typescript
 @Component({
@@ -640,9 +641,9 @@ Le composant généré par angular-cli est décoré par l'annotation `@Component
 })
 ```
 
-* `selector`: nom de la balise html que l'on peut utiliser et qui instanciera automatiquement ce composant.
+* `selector`: nom de la balise html que l'on peut utiliser et qui instanciera automatiquement ce composant. Vous pouvez donc avoir un nom de balise différent du nom de la classe.
 * `templateUrl`: chemin vers le fichier HTML du template du composant.
-* `styleUrls`: tableau de chemin de fichier CSS liés à ce composant.
+* `styleUrls`: tableau de chemin de fichiers CSS liés à ce composant.
 * `providers`: tableau de services à injecter dans le constructeur du composant.
 
 ### Controller
@@ -686,10 +687,11 @@ Vous pouvez remarquer également l'utilisation de la classe Day plutôt que d'un
 Nous aurions pu faire la même chose en javascript avec AngularJS 1, mais l'utilisation des classes TypeScript et la génération facilitée par angular-cli rendent les choses plus évidentes avec Angular2.
 
 ```bash
+mkdir src/app/shared
 ng generate class shared/day
 ```
 
-Cela génère le fichier `src/app/shared/day.ts` que nous compléter comme cela:
+Cela génère le fichier `src/app/shared/day.ts` que nous compléterons comme cela:
 
 ```typescript
 import Booking from './booking';
@@ -904,7 +906,7 @@ La route `**` est une route spéciale au cas où le chemin courant ne correspond
 **Les chemins du routeur ne commençent jamais par un `/`**
 </div>
 
-Remarquez que nous importons également le module `MzCalendarModule` que nous avons créé en même temps que le composant.
+Remarquez que nous importons également le module `MzCalendarModule` que nous avons créé.
 
 Modifions-le afin de configurer la route de notre composant:
 
@@ -927,6 +929,16 @@ import { MzCalendarComponent } from './mz-calendar.component';
 export class MzCalendarModule { }
 ```
 
-La méthode `RouterModule.forRoot` ne doit être utilisée qu'à la racine de l'application, dans AppModule. Quand vous êtes dans un composant, utilisez la méthode `RouterModule.forChild` pour ajouter des routes.
+La méthode `RouterModule.forRoot` ne doit être utilisée qu'à la racine de l'application, c'est à dire dans `AppModule`. Quand vous êtes dans un composant, utilisez la méthode `RouterModule.forChild` pour ajouter des routes.
 
 Pour que notre composant soit accessible dans le reste de l'application (où ce module est importé), il faut rajouter `MzCalendarComponent` dans la propriété `declarations` du module.
+
+Vous pouvez maintenant tester l'application (en lançant `ng serve` puis en ouvrant [`http://localhost:4200`](http://localhost:4200)) et vous verrez la même chose que pour l'application AngularJS 1
+
+# Conclusion
+
+D'un coté, nous avons AngularJS 1 qui utilise des technos couramment utilisées, javascript ES5 (sachez que vous pouvez utiliser ES6 avec AngularJS 1, également). L'apprentissage est donc essentiellement sur le framework et non sur le langage. Mais tout doit être fait à la main. Du coup, d'un projet à un autre, l'organisation du code est souvent très différente.
+
+De l'autre, nous avons Angular2 qui est maintenant fourni avec un outil de génération très pratique mais qui utilise un nouveau langage à apprendre.
+
+Cela dit, TypeScript n'est pas vraiment compliqué et il apporte plus d'avantages que d'inconvénients. Finalement, une fois passé la barrière du nouveau langage, nous nous retrouvons avec un framework mieux structuré, avec des outils de génération, avec du code plus propre et mieux organisé.
